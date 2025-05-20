@@ -45,7 +45,7 @@ contract Vault {
         gasUsed = initialGas - finalGas;
     }
 
-    function generateHash(string memory data) public pure returns (bytes32) {
+    function generateHash(string calldata data) public pure returns (bytes32) {
         return keccak256(abi.encodePacked(data));
     }
 }

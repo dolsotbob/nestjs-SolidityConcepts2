@@ -18,7 +18,7 @@ export class BankService {
 
   async getBalance() {
     try {
-      // Todo: getContractBalance의값을 리턴합니다.
+      // Todo: SentValue값을 리턴합니다.
       return await this.ethersService.sentValue();
     } catch (error) {
       //  Todo: 에러를 응답합니다.(exceptions.createBadRequestException(error.message))
@@ -28,7 +28,8 @@ export class BankService {
   async getTimestamp() {
     try {
       // Todo: getTimestamp의값을 리턴합니다.
-      return await this.ethersService.timestamp();
+      // bigint여서 toString() 해야 함 
+      return await this.ethersService.timestamp().toString();
     } catch (error) {
       //  Todo: 에러를 응답합니다.(exceptions.createBadRequestException(error.message))
       throw exceptions.createBadRequestException(error.message);
@@ -40,6 +41,7 @@ export class BankService {
       // Todo: gasUsed의 값을 리턴합니다.
       // ⚠️ bigint 타입은 JSON으로 변환 시 string으로 변환 필요
       const gasUsed = await this.ethersService.gasUsed();
+      // console.log('gas', gasUsed);
       return await gasUsed.toString();
     } catch (error) {
       //  Todo: 에러를 응답합니다.(exceptions.createBadRequestException(error.message))
@@ -91,7 +93,7 @@ export class BankService {
       */
 
       const details = await this.ethersService.getBlockDetails();
-
+      // console.log('details', details);
       // (나) 각 요소 구조 분해할당 
       const [blockNumber, blockPrevrandao, blockGasLimit, blockCoinBase] = details;
 
@@ -99,7 +101,7 @@ export class BankService {
         blockNumber: blockNumber.toString(),
         blockPrevrandao: blockPrevrandao.toString(),
         blockGasLimit: blockGasLimit.toString(),
-        blockCoinBase,
+        blockCoinBase: blockCoinBase.toString(),
       };
       // <아래는 처음 시도했던 방법> 
       // return details.map((detail) => {
@@ -155,8 +157,9 @@ export class BankService {
       */
       if (error.reason === "Only the owner can call withdraw.") {
         throw exceptions.ONLY_OWNER;
-      }
-      throw exceptions.createBadRequestException(error.message);
+      } else {
+        throw exceptions.createBadRequestException(error.message)
+      };
     }
   }
 }

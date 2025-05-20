@@ -77,6 +77,9 @@ export class EthersService {
   async deposit(value: number) {
     // Todo: deposit 함수를 실행합니다.
     // ⚠️ tx 확정 후 영수증을 리턴합니다.(wait)
+    // value를 옵션 값으로 줘야 함 (컨트랙트의 deposit 함수에서 인자값이 없기 때문)
+    // 옵션으로 넘길 때는 객체 형태로 줘야 함 
+    // value가 이더 단위로 들어오기 때문에 parseEther 써야 햠 
     const tx = await this.contract.deposit({ value: parseEther(value.toString()) });
     const receipt = await tx.wait();
     return receipt;
