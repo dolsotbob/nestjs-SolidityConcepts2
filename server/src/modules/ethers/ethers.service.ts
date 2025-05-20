@@ -54,49 +54,79 @@ export class EthersService {
 
   async owner() {
     // Todo: owner의 값을 리턴합니다.
+
+    return await this.contract.owner();
   }
 
   async sentValue() {
     // Todo: sentValue의 값을 리턴합니다.
     // ⚠️ 리턴은 ether 단위로 리턴합니다.(wei => ether)
+
+    return this.formatEther(await this.contract.sentValue());
   }
 
   async timestamp() {
     // Todo: timestamp의 값을 리턴합니다.
+
+    return await this.contract.timestamp();
   }
 
   async gasUsed() {
     // Todo: gasUsed의 값을 리턴합니다.
+
+    return await this.contract.gasUsed();
   }
 
   async deposit(value: number) {
     // Todo: deposit 함수를 실행합니다.
     // ⚠️ tx 확정 후 영수증을 리턴합니다.(wait)
+
+    const tx = await this.contract.deposit({
+      value: this.parseEther(value.toString()),
+    });
+    const receipt = await tx.wait();
+    return receipt;
   }
 
   async getCaller() {
     // Todo: getCaller 함수를 실행하여 caller의 값을 리턴합니다.
+
+    return await this.contract.getCaller();
   }
 
   async getOrigin() {
     // Todo: getOrigin 함수를 실행하여 origin의 값을 리턴합니다.
+
+    return await this.contract.getOrigin();
   }
 
   async getBlockDetails() {
     // Todo: getBlockDetails 함수를 실행하여 block details를 리턴합니다.
+
+    return await this.contract.getBlockDetails();
   }
 
   async trackGasUsage() {
     // Todo: trackGasUsage 함수를 실행합니다.
     // ⚠️ tx 확정 후 영수증을 리턴합니다.(wait)
+
+    const tx = await this.contract.trackGasUsage();
+    const receipt = await tx.wait();
+    return receipt;
   }
 
   async generateHash(message: string) {
     // Todo: generateHash 함수를 실행하여 hash를 리턴합니다.
+
+    return await this.contract.generateHash(message);
   }
 
   async withdraw(value: number) {
     // Todo: withDraw의값을 리턴합니다.
     // ⚠️ setter함수는 tx 확정 후 영수증을 리턴합니다.(wait)
+
+    const tx = await this.contract.withdraw(this.parseEther(value.toString()));
+    const receipt = await tx.wait();
+    return receipt;
   }
 }

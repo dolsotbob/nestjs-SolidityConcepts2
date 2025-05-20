@@ -8,6 +8,9 @@ async function main() {
 
   // Todo: deploy script를 구현하여 주세요.
 
+  const Bank = await ethers.getContractFactory('Bank');
+  const contract = await Bank.deploy();
+
   console.log(`Bank contract deployed at: ${contract.target}`);
   await makeAbi('Bank', contract.target);
 }
